@@ -1,15 +1,28 @@
 function Article ({article}) {
 
     return (
-        <div className={'article'}>
-            <div className={'image-container'}>
-                <img src={article.url} alt={article.title} />
-                <div className={'citation-container'}></div>
-                <cite className={'author'}> {article.copyright}</cite>
-                <cite className={'date'}> {article.date}</cite>
+        <div className='article'>
+            <h3 className='date'> {article.date} </h3>
+            <div className='image-container'>
+                <button 
+                    className='prev-button'
+                > 
+                    {'<'} 
+                </button>
+                <a href={article.hdurl}>
+                    <img src={article.url} alt={article.title} />
+                </a>
+                <button 
+                    className='next-button'
+                >
+                    {'>'}
+                </button>
+                <div className='citation-container'>
+                    <copyright className='author'> {article.copyright} </copyright>
             </div>
-            <div className={'article-text'}>
-                <p>{article.explanation}</p>
+            </div>
+            <div className='text-container'>
+                <p className='text-p'>{article.explanation}</p>
             </div>
         </div>
     )

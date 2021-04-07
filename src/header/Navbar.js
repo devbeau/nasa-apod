@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-
+import {Link} from 'react-router-dom';
 function Navbar ({setArticle}) {
 
     const [date, setDate] = useState('');
@@ -20,7 +20,6 @@ function Navbar ({setArticle}) {
     function onChange (e) {
         const {value} = e.target;
         setDate(value);
-        console.log(date);
     }
 
     function onClick () {
@@ -29,18 +28,24 @@ function Navbar ({setArticle}) {
 
     return (
         <nav className='header-nav'>
-            <button 
-                className='header-nav-a home-button'
-                onClick={() => onClick()}
-            >
-                Today's Picture
-            </button>
-            <button className='header-nav-a'>
-                This Week
-            </button>
+            <Link to='/'>
+                <button 
+                    className='header-nav-a home-button'
+                    onClick={() => onClick()}
+                >
+                    Today's Picture
+                </button>
+            </Link>
+
+            <Link to='/gallery'>
+                <button className='header-nav-a'>
+                    This Week
+                </button>
+            </Link>
+
             <input 
                 id='date-picker'
-                className='header-textinput'
+                className='header-dateinput'
                 type='date'
                 value={date}
                 onChange={e => onChange(e)}
