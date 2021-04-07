@@ -1,10 +1,14 @@
 import Card from './Card';
 
-function Cards({articles}) {
+function Cards({articles, setArticle}) {
 
     return (
         articles.map(article => {
-            return <Card article={article}/>
+            return <Card 
+                key={`${article.media_type}-${article.date}`} 
+                article={article}
+                setArticle={setArticle}
+            />
         })
     )
 }

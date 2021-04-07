@@ -10,7 +10,7 @@ function App() {
   const [todaysDate, setTodaysDate] = useState('');
 
     useEffect(() => {
-        fetch('https://api.nasa.gov/planetary/apod?api_key=OJBYBxZyIS0a1o6hNglyEDwsyOSkDItP6XcxQvab')
+        fetch('https://api.nasa.gov/planetary/apod?api_key=OJBYBxZyIS0a1o6hNglyEDwsyOSkDItP6XcxQvab&thumbs=True')
         .then(res => res.json())
         .then(data => {
             setArticle(data);
@@ -21,14 +21,14 @@ function App() {
   return (
     <div className="App">
 
-      <Header setArticle={setArticle}/>
+      <Header setArticle={setArticle} todaysDate={todaysDate}/>
 
       <Route exact path='/'>
         <Article article={article} />
       </Route>
 
       <Route exact path='/gallery'>
-        <Gallery todaysDate={todaysDate} />
+        <Gallery todaysDate={todaysDate} setArticle={setArticle}/>
       </Route>
 
     </div>

@@ -1,11 +1,11 @@
 import Navbar from './Navbar';
 
-function Header ({setArticle}) {
+function Header ({setArticle, todaysDate}) {
 
     return (
         <header>
             <h1> Astronomy Picture of the Day </h1>
-            <Navbar setArticle={setArticle}/>
+            <Navbar setArticle={setArticle} todaysDate={todaysDate} />
         </header>
     )
 }

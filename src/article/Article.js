@@ -1,3 +1,5 @@
+import YouTube from './YouTube';
+
 function Article ({article}) {
 
     return (
@@ -9,16 +11,24 @@ function Article ({article}) {
                 > 
                     {'<'} 
                 </button>
-                <a href={article.hdurl}>
-                    <img src={article.url} alt={article.title} />
-                </a>
+                {article.media_type === 'video' &&
+                    <YouTube 
+                        embedURL={article.url}
+                        embedTitle={article.title}
+                    />
+                }
+                {article.media_type === 'image' &&
+                    <a href={article.hdurl}>
+                        <img src={article.url} alt={article.title} />
+                    </a>
+                }
                 <button 
                     className='next-button'
                 >
                     {'>'}
                 </button>
                 <div className='citation-container'>
-                    <copyright className='author'> {article.copyright} </copyright>
+                    <cite className='author'> {article.copyright} </cite>
             </div>
             </div>
             <div className='text-container'>

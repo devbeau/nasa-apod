@@ -1,8 +1,12 @@
 import {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-function Navbar ({setArticle}) {
+import moment from 'moment';
 
-    const [date, setDate] = useState('');
+const FIRST_DATE = '1995-06-16'
+
+function Navbar ({setArticle, todaysDate}) {
+
+    const [date, setDate] = useState(todaysDate);
 
     useEffect(() => {
         fetch(
@@ -19,11 +23,16 @@ function Navbar ({setArticle}) {
     
     function onChange (e) {
         const {value} = e.target;
-        setDate(value);
+        if (moment(value).isAfter(todaysDate)) {
+            return setDate(todaysDate)
+        } else if (moment(value).isBefore(FIRST_DATE)) {
+            return setDate(FIRST_DATE)
+        }
+        return setDate(value);
     }
 
     function onClick () {
-        setDate('');
+        setDate(todaysDate);
     }
 
     return (
