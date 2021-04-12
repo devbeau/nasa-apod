@@ -54,6 +54,7 @@ function Navbar ({setArticle, todaysDate}) {
 
             <input 
                 id='date-picker'
+                name='datePicker'
                 className='header-dateinput'
                 type='date'
                 value={date}

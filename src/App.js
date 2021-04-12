@@ -24,7 +24,7 @@ function App() {
       <Header setArticle={setArticle} todaysDate={todaysDate}/>
 
       <Route exact path='/'>
-        <Article article={article} />
+        <Article article={article} setArticle={setArticle} todaysDate= {todaysDate} />
       </Route>
 
       <Route exact path='/gallery'>
