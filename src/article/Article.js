@@ -1,3 +1,4 @@
+import React from 'react';
 import YouTube from './YouTube';
 import moment from 'moment';
 

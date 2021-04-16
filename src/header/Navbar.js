@@ -1,6 +1,7 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
+import ReactDatePicker from 'react-datepicker';
 
 const FIRST_DATE = '1995-06-16'
 
@@ -21,14 +22,13 @@ function Navbar ({setArticle, todaysDate}) {
         .catch(error => console.log(error));
     }, [date, setArticle]);
     
-    function onChange (e) {
-        const {value} = e.target;
-        if (moment(value).isAfter(todaysDate)) {
+    function onChange (date) {
+        if (moment(date).isAfter(todaysDate)) {
             return setDate(todaysDate)
-        } else if (moment(value).isBefore(FIRST_DATE)) {
+        } else if (moment(date).isBefore(FIRST_DATE)) {
             return setDate(FIRST_DATE)
         }
-        return setDate(value);
+        return setDate(moment(date, "MM/DD/YYYY").format("YYYY-MM-DD"));
     }
 
     function onClick () {
@@ -52,6 +52,10 @@ function Navbar ({setArticle, todaysDate}) {
                 </button>
             </Link>
 
+            <ReactDatePicker
+                selected={date}
+                onChange={date => onChange(date)}
+            />
             <input 
                 id='date-picker'
                 name='datePicker'
@@ -64,4 +68,4 @@ function Navbar ({setArticle, todaysDate}) {
     )
 }
 
-export default Navbar
+export default Navbar;
