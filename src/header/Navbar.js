@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import {format, parseISO} from 'date-fns';
 import ReactDatePicker from 'react-datepicker';
 
+import "react-datepicker/dist/react-datepicker.css";
+
 const FIRST_DATE = '1995-06-16'
 
 function Navbar ({setArticle, todaysDate}) {
@@ -10,12 +12,8 @@ function Navbar ({setArticle, todaysDate}) {
     const [date, setDate] = useState(todaysDate);
 
     useEffect(() => {
-        let reqDate = '';
-        if (date) {
-            console.log(date)
-            reqDate = format(date, "yyyy-MM-dd");
-        }
-
+        let reqDate = date ? format(date, "yyyy-MM-dd") : '';
+        
         fetch(
             'https://api.nasa.gov/planetary/apod'
             + '?api_key=OJBYBxZyIS0a1o6hNglyEDwsyOSkDItP6XcxQvab'
@@ -56,7 +54,6 @@ function Navbar ({setArticle, todaysDate}) {
             <ReactDatePicker
                 selected={date}
                 onChange={date => onChange(date)}
-                dateFormat="yyyy-MM-dd"
                 maxDate={parseISO(todaysDate)}
                 minDate={parseISO(FIRST_DATE)}
             />          

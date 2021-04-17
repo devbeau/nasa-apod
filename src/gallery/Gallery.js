@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import {format, parseISO} from 'date-fns';
+import sub from 'date-fns/sub';
 import Cards from './Cards';
 
 const FIRST_DATE = '1995-06-16'
@@ -7,46 +9,52 @@ const FIRST_DATE = '1995-06-16'
 function Gallery({todaysDate, setArticle}) {
     const [articles, setArticles] = useState([]);
     const [dateValues, setDateValues] = useState({
-        endDate: todaysDate,
-        startDate: moment(todaysDate, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD') 
+        endDate: parseISO(todaysDate),
+        startDate: sub(parseISO(todaysDate), {"days": 7})
     });
     let {startDate, endDate} = dateValues;
 
-    function onChange(e) {
-        const {name, value} = e.target;
+    function onChange(startDate, endDate) {
 
-        if (name === 'startDate' && moment(value).isAfter(endDate)) {
-            return setDateValues({...dateValues, startDate: endDate})
-        }
-        if (name === 'startDate' && moment(value).isBefore(FIRST_DATE)) {
-            return setDateValues({...dateValues, startDate: FIRST_DATE})
-        }
-        if (name === 'endDate' && moment(value).isBefore(startDate)) {
-            return setDateValues({...dateValues, endDate: startDate})
-        }
-        if (name === 'endDate' && moment(value).isAfter(todaysDate)) {
-            return setDateValues({...dateValues, endDate: todaysDate})
-        }
-        
-        return setDateValues({...dateValues, [name]: value}) 
+        return setDateValues({startDate, endDate}) 
     }
     
     useEffect(() => {
+        console.log(startDate, endDate)
+        let startDateReq = startDate 
+            ? format(startDate, 'yyyy-MM-dd') 
+            : ''
+        let endDateReq = endDate 
+            ? format(endDate, 'yyyy-MM-dd') 
+            : ''
+
+        console.log(startDate, startDateReq, endDate, endDateReq)
         fetch('https://api.nasa.gov/planetary/apod'
             + '?api_key=OJBYBxZyIS0a1o6hNglyEDwsyOSkDItP6XcxQvab'
-            + '&start_date=' + startDate
-            + '&end_date=' + endDate
+            + '&start_date=' + startDateReq
+            + '&end_date=' + endDateReq
             + '&thumbs=True' 
         )
         .then(res => res.json())
         .then(data => setArticles(data))
         .catch(error => console.log(error))
 
-    }, [startDate, endDate])
+    }, [startDate, endDate, todaysDate])
 
     return (
         <div className='gallery-container'>
-            <input 
+            <DatePicker
+                selected={endDate}
+                onChange={([startDate, endDate]) => onChange(startDate, endDate)}
+                startDate={startDate}
+                endDate={endDate}
+                maxDate={parseISO(todaysDate)}
+                minDate={parseISO(FIRST_DATE)}
+                selectsRange
+                inline
+                shouldCloseOnSelect={false}
+            />
+            {/* <input 
                 id='start-date-picker'
                 name='startDate'
                 className='gallery-dateinput'
@@ -61,7 +69,7 @@ function Gallery({todaysDate, setArticle}) {
                 type='date'
                 value={endDate}
                 onChange={e => onChange(e)}
-            />
+            /> */}
             {articles && <Cards articles={articles} setArticle={setArticle} />}
         </div>
     )
