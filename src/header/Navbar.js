@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, forwardRef} from 'react';
 import {Link} from 'react-router-dom';
 import {format, parseISO} from 'date-fns';
 import ReactDatePicker from 'react-datepicker';
-
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faHome, faImages, faCalendarDay} from '@fortawesome/free-solid-svg-icons';
 import "react-datepicker/dist/react-datepicker.css";
 
 const FIRST_DATE = '1995-06-16'
@@ -28,27 +29,33 @@ function Navbar ({setArticle, todaysDate}) {
     
     function onChange (date) {
         return setDate(date);
-    }
+    };
 
     function onClick () {
         setDate(parseISO(todaysDate));
-    }
+    };
 
+    const IconDatePicker = forwardRef(({onClick}, ref) => (
+        <FontAwesomeIcon
+            icon={faCalendarDay}
+            onClick={onClick}
+            ref={ref}
+        />
+    ));
+    
     return (
         <nav className='header-nav'>
             <Link to='/'>
-                <button 
-                    className='header-nav-a home-button'
-                    onClick={() => onClick()}
-                >
-                    Today's Picture
-                </button>
+                <FontAwesomeIcon
+                    icon={faHome} 
+                    onClick={onClick} 
+                /> 
             </Link>
 
             <Link to='/gallery'>
-                <button className='header-nav-a'>
-                    This Week
-                </button>
+                <FontAwesomeIcon
+                    icon={faImages}
+                />
             </Link>
 
             <ReactDatePicker
@@ -56,6 +63,7 @@ function Navbar ({setArticle, todaysDate}) {
                 onChange={date => onChange(date)}
                 maxDate={parseISO(todaysDate)}
                 minDate={parseISO(FIRST_DATE)}
+                customInput={<IconDatePicker />}
             />          
         </nav>
     )

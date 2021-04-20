@@ -6,11 +6,11 @@
   height: 100%;
 }
 header {
+  width: 100%;
   background-color: #454257;
   color: white;
 }
 h1 {
-  /* background-color: #454257; */
   font-weight: bold;
   font-size: 2rem;
 }
